@@ -1,4 +1,4 @@
-name: Deploy the application
+name: "${{ github.event.inputs.deploy_message }}"
 
 on:
   workflow_dispatch:
