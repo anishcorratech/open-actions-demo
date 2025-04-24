@@ -25,3 +25,5 @@ jobs:
         run: |
           echo "Environment: ${{ github.event.inputs.environment }}"
           echo "Message: ${{ github.event.inputs.deploy_message }}"
+      - name: ${{ github.event.inputs.deploy_message }}
+        run: echo "This is done"
