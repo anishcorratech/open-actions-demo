@@ -25,16 +25,16 @@ on:
 jobs:
   run-manual:
     runs-on: ubuntu-latest
-    environment: 
+    environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Show inputs
-        run: ${{ github.event.inputs.environment }}
+        run: |
           echo "Environment: ${{ github.event.inputs.environment }}"
           echo "Message: ${{ github.event.inputs.deploy_message }}"
       - name: ${{ github.event.inputs.deploy_message }}
         run: |
           echo "This is the ${{ vars.IDENT_STRING }}"
-          if [[ "${{ github.event.inputs.clear_cache }}" == "true" ]]; then
+          if [[ "${{ github.event.inputs.enable_debug }}" == "true" ]]; then
             echo "Purging Cache"
           else
             echo "Proceeding without purging Cache"
