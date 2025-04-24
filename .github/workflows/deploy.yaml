@@ -25,13 +25,15 @@ on:
 jobs:
   run-manual:
     runs-on: ubuntu-latest
+    environment: 
     steps:
       - name: Show inputs
-        run: |
+        run: ${{ github.event.inputs.environment }}
           echo "Environment: ${{ github.event.inputs.environment }}"
           echo "Message: ${{ github.event.inputs.deploy_message }}"
       - name: ${{ github.event.inputs.deploy_message }}
         run: |
+          echo "This is the ${{ vars.IDENT_STRING }}"
           if [[ "${{ github.event.inputs.clear_cache }}" == "true" ]]; then
             echo "Purging Cache"
           else
