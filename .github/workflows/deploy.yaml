@@ -17,6 +17,11 @@ on:
         required: true
         default: 'Deployment to dev'
         type: string
+      clear_cache:
+        description: 'Purge cache'
+        required: true
+        default: false
+        type: boolean
 jobs:
   run-manual:
     runs-on: ubuntu-latest
@@ -26,4 +31,9 @@ jobs:
           echo "Environment: ${{ github.event.inputs.environment }}"
           echo "Message: ${{ github.event.inputs.deploy_message }}"
       - name: ${{ github.event.inputs.deploy_message }}
-        run: echo "This is done"
+        run: |
+          if [[ "${{ github.event.inputs.enable_debug }}" == "true" ]]; then
+            echo "Purging Cache"
+          else
+            echo "Proceeding without purging Cache"
+          fi
