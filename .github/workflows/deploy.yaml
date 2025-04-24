@@ -32,7 +32,7 @@ jobs:
           echo "Message: ${{ github.event.inputs.deploy_message }}"
       - name: ${{ github.event.inputs.deploy_message }}
         run: |
-          if [[ "${{ github.event.inputs.enable_debug }}" == "true" ]]; then
+          if [[ "${{ github.event.inputs.clear_cache }}" == "true" ]]; then
             echo "Purging Cache"
           else
             echo "Proceeding without purging Cache"
