@@ -22,6 +22,12 @@ on:
         required: true
         default: false
         type: boolean
+
+env:
+  TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+  TIMEOUT_MINUTES: 10
+  POLL_INTERVAL_SECONDS: 10
+
 jobs:
   run-manual:
     runs-on: ubuntu-latest
@@ -31,10 +37,25 @@ jobs:
         run: |
           echo "Environment: ${{ github.event.inputs.environment }}"
           echo "Message: ${{ github.event.inputs.deploy_message }}"
+          echo "Message: ${{ github.event.inputs.clear_cache }}"
+
+      - name: Generate unique ID for this approval request
+        id: generate-id
+        run: echo "id=$(date +%s)" >> $GITHUB_OUTPUT
+
+      - name: Send approval request to Teams
+        id: send-request
+        uses: myusufcse/microsoft-teams-message-bot@v1.5
+        with:
+          webhook: ${{ env.TEAMS_WEBHOOK_URL }}
+          message: Please approve the deployment request
+          button_link_text: Approve
+          button_link: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/approve/${{ steps.generate-id.outputs.id }}"
+
       - name: ${{ github.event.inputs.deploy_message }}
         run: |
           echo "This is the ${{ vars.IDENT_STRING }}"
-          if [[ "${{ github.event.inputs.enable_debug }}" == "true" ]]; then
+          if [[ "${{ github.event.inputs.clear_cache }}" == "true" ]]; then
             echo "Purging Cache"
           else
             echo "Proceeding without purging Cache"
