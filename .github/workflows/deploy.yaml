@@ -45,7 +45,7 @@ jobs:
 
       - name: Send approval request to Teams
         id: send-request
-        uses: myusufcse/microsoft-teams-message-bot@v1.5
+        uses: myusufcse/microsoft-teams-message-bot@v1.1
         with:
           webhook: ${{ env.TEAMS_WEBHOOK_URL }}
           message: Please approve the deployment request
